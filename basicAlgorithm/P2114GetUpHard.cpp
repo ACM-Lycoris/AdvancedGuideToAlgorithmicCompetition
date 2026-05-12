@@ -56,7 +56,7 @@ int main() {
                 continue;
             }else{
                 cur|=(1<<i);
-                ans|=(i<<i);
+                ans|=(1<<i);
             }
 
         }
