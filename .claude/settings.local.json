@@ -1,7 +1,25 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(pip install *)",
+      "Bash(python -c \"import pandas; print\\('pandas', pandas.__version__\\)\")",
+      "Bash(python -c \"import flask; print\\('flask', flask.__version__\\)\")",
+      "Bash(python app.py)",
+      "Read(//tmp/**)",
+      "Read(//c/Users/Administrator/AppData/Local/Temp/claude/E--ACM-algorthim/ff23e678-401c-4807-b5c1-321ba8048982/tasks/**)",
+      "WebFetch(domain:127.0.0.1)",
+      "Bash(curl -s http://127.0.0.1:5000/api/data)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('OK -', d['rowCount'], 'rows,', d['columns']\\)\")",
+      "Bash(where python *)",
+      "Read(//c/Users/Administrator/AppData/Local/Programs/Python\" 2>/dev/null; py --list 2>/dev/**)",
+      "Bash(winget install *)",
+      "Bash(\"C:/Users/Administrator/AppData/Local/Programs/Python/Python312/python.exe\" -m pip install pandas flask openpyxl)",
+      "Bash(taskkill //f //im python.exe)",
+      "Bash(taskkill //f //im python3.12.exe)",
+      "Bash(\"C:/Users/Administrator/AppData/Local/Programs/Python/Python312/python.exe\" app.py)",
+      "Bash(\"C:/Users/Administrator/AppData/Local/Programs/Python/Python312/python.exe\" -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Server OK —', d['rowCount'], 'rows,', len\\(d['columns']\\), 'cols:', d['columns']\\)\")",
+      "Bash(start *)"
     ]
   }
 }
