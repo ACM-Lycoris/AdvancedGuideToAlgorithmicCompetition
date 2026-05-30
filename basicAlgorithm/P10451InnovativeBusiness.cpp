@@ -27,9 +27,9 @@ int main()
     int n; 
     cin>>n;
     vector<int> ans;
-    ans.push_back(1);
+    ans.push_back(1);//要先push_back(1)
 
-    for(int i=2;i<=n;i++){//i就是当前要操作的元素
+    for(int i=2;i<=n;i++){//i就是当前要操作的元素,从2开始
         int l=0;int r=ans.size();
         while(l<r){
             int mid=(l+r)>>1;//我们要在位置mid插入i
