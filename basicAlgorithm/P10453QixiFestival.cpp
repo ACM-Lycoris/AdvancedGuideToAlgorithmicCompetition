@@ -55,7 +55,7 @@ int main()
 
             sort(cPref.begin() + 1, cPref.end());
 
-            ll median = cPref[(Len + 1) >> 1]; // median就是断环常数
+            ll median = cPref[(Len + 1) >> 1]; // median就是断环中位数对应的点
 
             ll res = 0;
             for (int i = 1; i <= Len; i++)
