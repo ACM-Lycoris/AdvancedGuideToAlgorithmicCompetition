@@ -26,7 +26,7 @@ int main()
 
     ll m;
     cin>>m;
-
+    
     vector<pair<ll,ll>> Voices(m);
     map<pair<ll,ll>,int> Ids;//每一个pair对应的编号
     for(int i=0;i<m;i++){
