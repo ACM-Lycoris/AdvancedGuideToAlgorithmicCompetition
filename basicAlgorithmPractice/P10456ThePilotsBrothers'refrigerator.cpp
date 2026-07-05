@@ -16,6 +16,7 @@ int main()
         for(int j=0;j<4;j++){
             if(s[j] == '+'){
                 start |= 1<<(i*4+j);//压缩读数
+                
             }
         }
     }
