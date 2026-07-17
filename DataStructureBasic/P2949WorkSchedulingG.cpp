@@ -12,52 +12,30 @@ int main()
     cin.tie(nullptr);
 
     ll n;
-    cin >> n;
-
-    vector<pair<ll, ll>> Task(n);
-    for (ll i = 0; i < n; i++)
-    {
-        cin >> Task[i].first >> Task[i].second;
+    cin>>n;
+    vector<pair<ll,ll>> Works(n);
+    for(int i=0;i<n;i++){
+        cin>>Works[i].first>>Works[i].second;
     }
+    
+    sort(all(Works),[&](const pair<ll,ll> &a,const pair<ll,ll> &b){
+        return a.first<b.first;
+    });
 
-    if (n == 1)
-    {
-        cout << Task[0].second << endl;
-        return 0;
-    }
+    priority_queue<ll,vector<ll>,greater<ll>> pq;
+    ll ans=0;
+    for(ll i=0;i<n;i++){
+        auto [D,P]=Works[i];
+        pq.push(P);
+        ans+=P;
 
-    priority_queue<ll, vector<ll>, greater<ll>> pq; // 大根堆
-
-    sort(Task.begin(), Task.end());
-
-    ll curTime = 1;
-    ll BestMoney = 0;
-
-    for (ll i = 0; i < n; i++)
-    {
-        ll curDDL = Task[i].first;
-        ll curP = Task[i].second;
-
-        if (curTime <= curDDL)
-        {
-            pq.push(curP);
-        }
-
-        while (pq.size() > curDDL)
-        {
+        if(pq.size()>D){
+            ans-=pq.top();
             pq.pop();
         }
-    }
 
-    while (!pq.empty())
-    {
-        ll curP = pq.top();
-        pq.pop();
-        // curTime++;
-        BestMoney += curP;
     }
-
-    cout << BestMoney << '\n';
+    cout<<ans<<endl;
 
     return 0;
 }
