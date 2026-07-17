@@ -1,3 +1,5 @@
+#include<bits/stdc++.h>
+using namespace std;
 /*
  * @lc app=leetcode.cn id=871 lang=cpp
  *
@@ -21,7 +23,7 @@ public:
         }
         sort(stations.begin(),stations.end(),[&](const vector<int> &a,const vector<int> &b){
             int posA=a[0],fuelA=a[1];
-            int posB=b[0],fuelB=a[1];
+            int posB=b[0],fuelB=b[1];
 
             if(posA!=posB){
                 return posA<posB;
