@@ -38,7 +38,7 @@ int main()
 
     for (int i = n + 1; i <= n + add; i++)
     {
-        w[i]=0;
+        w[i] = 0;
     }
 
     sort(w.begin() + 1, w.end()); // 排序后自动补齐0节点
@@ -50,21 +50,21 @@ int main()
 
     auto getMin = [&]() -> pair<ll, ll>
     {
-        if (cur == n + add+ 1 && !q.empty())
+        if (cur == n + add + 1 && !q.empty())
         {
             auto ans = q.front();
             q.pop_front();
             sumLen += ans.first;
             return ans;
         }
-        if (cur != n +add+ 1 && q.empty())
+        if (cur != n + add + 1 && q.empty())
         {
             ll ans = w[cur];
             cur++;
             sumLen += ans;
             return {ans, 0};
         }
-        else if (cur != n +add+ 1 && !q.empty())
+        else if (cur != n + add + 1 && !q.empty())
         {
             ll ans1 = w[cur];
             auto [ans2, deep] = q.front();
@@ -86,13 +86,12 @@ int main()
 
     ll maxDeep = 0; // 最深的合并深度，对应最长字符串
 
-    while (cur != n +add+ 1 || (cur == n +add+ 1 && !q.empty()))
+    while (cur != n + add + 1 || (cur == n + add + 1 && !q.empty()))
     {
-        
-        if (cur == n +add+ 1 && q.size() == 1)
+
+        if (cur == n + add + 1 && q.size() == 1)
         {
             // 用完了
-
             break;
         }
 
@@ -101,7 +100,7 @@ int main()
         // 每一次
         int tempK = k;
         ll nextDeep = 0;
-        while (tempK-- ) // 严格执行k次
+        while (tempK--) // 严格执行k次
         {
             // 最多k次，且每次都要满足条件
             auto [curMin, deep] = getMin();
