@@ -11,76 +11,61 @@ inline void optimize()
     cin.tie(nullptr);
 }
 
-bool Left(const char &c)
-{
-    if (c == '{' || c == '(' || c == '[')
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
 int main()
 {
     optimize();
 
-    string str;
-    cin >> str;
-    int N = str.length();
-    str = ' ' + str;
-    stack<int> s; // 栈存下标记
+    string s;
+    cin >> s;
+    ll n = s.length();
 
-    s.push(0);//很坑的一点是，这里的边界要与1or0 -based搭配
-    //如果是0based，需要采取s.push(-1),因为这个边界是要参与计算的
-    //例如s="()",算长度就要按边界为0
+    stack<int> stk;
 
-    auto Match = [&](char c) -> bool
+    auto Left = [](const char &c) -> bool
     {
-        if (s.size() <= 1)
+        return c == '(' || c == '[' || c == '{';
+    };
+
+    auto Match = [&](const char &r) -> bool
+    {
+        if (stk.empty())
         {
             return false;
         }
 
-        char left = str[s.top()];
+        char l = s[stk.top()];
 
-        return (c == ')' && left == '(') ||
-               (c == ']' && left == '[') ||
-               (c == '}' && left == '{');
+        return ( //左右字符匹配就返回true
+            (l == '(' && r == ')')
+        ||  (l == '[' && r == ']')
+        ||  (l == '{' && r == '}'));
     };
 
-    int ans = 0;
+    //处理部分
+    stk.push(-1);
+    //填入起始长度
 
-    for (int r = 1; r <= N; r++)
-    {
-        char c = str[r];
-        if (Left(c))
-        {
-            s.push(r);
-        }
-        else
-        {
+    ll maxLen=0;
 
-            // 进入右括号阶段
-            if (!s.empty() && Match(c))
-            {
-                // 合法匹配
-                s.pop();
-                ans = max(r - s.top(), ans);
-            }
-            else
-            {
-                while (!s.empty())
-                {
-                    s.pop();
-                }
-                s.push(r);
+    for(int i=0;i<n;i++){
+        char c=s[i];
+        if(Left(c)){
+            stk.push(i);
+        }else{
+            //右括号
+            if(Match(c)){
+                //如果匹配
+                stk.pop();
+                ll curLen=i-stk.top();
+                maxLen=max(curLen,maxLen);//读取计算长度
+            }else{
+                //不匹配
+                stk.push(i);//填入i作为非法边界值
             }
         }
     }
-    cout << ans << endl;
+
+    cout<<maxLen<<endl;
 
     return 0;
 }

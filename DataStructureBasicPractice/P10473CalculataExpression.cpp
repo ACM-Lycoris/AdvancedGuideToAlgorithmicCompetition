@@ -11,7 +11,7 @@ inline void optimize()
 }
 
 string s;
-int pos; // 当前还没有处理到的第一个位置
+int pos; // 当前未处理的最后一个位置
 int n;   // 字符串长度
 
 ll qpow(ll a, ll b)
@@ -30,98 +30,105 @@ ll qpow(ll a, ll b)
     return ans;
 }
 
-ll op1();
-ll op2();
-ll op3();
-ll op4();
-ll op5();
+ll Expression(); // 加减
+ll Mult();       // 乘除
+ll PosNeg();     // 处理正负
+ll Pow();        // 处理乘方
+ll Read();       // 读取数据
 
-ll op1()
-{ // 基础式子处理
+ll Expression()
+{
+    ll left = Mult();
+    ll right = 0;
 
-    ll val = op2();
-
-    while (pos < n && (s[pos] == '+' || s[pos] == '-'))
-    {
-        char op = s[pos];
+    while(pos<n && (s[pos]=='+' || s[pos]=='-')){
+        char op=s[pos];
         pos++;
 
-        ll right = op2();
-        if (op == '+')
-        {
-            val += right;
-        }
-        else
-        {
-            val -= right;
-        }
-    }
-    return val;
-};
+        right=Mult();
 
-ll op2()
-{ // 乘除
-
-    ll val = op3();
-    while (pos < n && (s[pos] == '*' || s[pos] == '/'))
-    {
-        char op = s[pos];
-        pos++;
-
-        ll right = op3();
-        if (op == '*')
-        {
-            val *=right;
+        if(op=='+'){
+            left+=right;
+        }else if(op=='-'){
+            left-=right;
         }
-        else if (op == '/')
-        {
-            val /= right;
-        }
+
     }
 
-    return val;
+    return left ;
 }
 
-ll op3()
-{ // 一元正负号
-    if (pos < n && s[pos] == '+')
-    {
-        pos++;
-        return op3();
-    }
-    if (pos < n && s[pos] == '-')
-    {
-        pos++;
-        return -op3();
-    }
-    return op4();
-}
+ll Mult()
+{
+    ll left = PosNeg();
+    ll right;
 
-ll op4()
-{ // 乘方（快速幂应该可以实现,但这里要递归）
-
-    ll left = op5();
-    if (pos < n && s[pos] == '^')
-    {
+    while(pos<n && (s[pos]=='*' || s[pos]=='/')){
+        char op=s[pos];
         pos++;
-        ll right = op4(); // 要先递归右边的
-        left = qpow(left, right);
+
+        ll right = PosNeg();
+
+        if(op=='*'){
+            left*=right;
+        }else if(op=='/'){
+            left/=right;   
+        }
+
     }
+
     return left;
 }
 
-ll op5()
+ll PosNeg()
 {
-    // 读取数字，括号
-    if (s[pos] == '(')
+    // 处理正负号
+
+    if (pos < n && s[pos] == '+')
     {
         pos++;
-        ll val = op1(); // 计算括号内完整表达式
-        pos++;          // 跳过右括号
-        return val;
+        return PosNeg();
+    }
+    else if (pos < n && s[pos] == '-')
+    {
+        pos++;
+        return -PosNeg();
     }
 
+    return Pow();
+}
+
+ll Pow()
+{
+    // 乘方处理
+    ll left = Read(); // 要先读取左边
+    if ( pos < n && s[pos] == '^' )
+    { // 右边如果有多个乘方，要先递归处理完右边
+        pos++;
+        ll right = Pow(); // 右边有东西才有right
+        ll ans = qpow(left, right);
+        return ans;
+    }
+    else
+    {
+        return left; // 右边没有乘方，就意味着乘方到了最右侧，这时候返回刚刚读进去的，最右侧的"left"即可
+    }
+}
+
+ll Read()
+{
+    // 读取数据
+    if (pos < n && s[pos] == '(')
+    { // 如果是括号就跳过括号继续读
+        pos++;
+        ll val = Expression();//读取完整表达式
+        pos++; // 跳过左右括号
+        return val;
+    }
+    // 不是括号就正常读数字即可
+
     ll val = 0;
+
     while (pos < n && isdigit(s[pos]))
     {
         val = val * 10 + (s[pos] - '0');
@@ -136,10 +143,9 @@ int main()
     optimize();
 
     cin >> s;
-    pos = 0;
     n = s.length();
-
-    cout<<op1()<<endl;
+    pos = 0;
+    cout << Expression() << endl;
 
     return 0;
 }

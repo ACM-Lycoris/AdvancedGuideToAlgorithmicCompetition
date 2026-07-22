@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-using ll  = long long;
+using ll = long long;
 using ull = unsigned long long;
 #define all(x) x.begin(), x.end()
 
@@ -11,8 +11,7 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
-
+    ll n;
     while (cin >> n)
     {
         if (n == 0)
@@ -20,39 +19,44 @@ int main()
             break;
         }
 
-        vector<ll> nums(n + 2);
-
-        nums[0] = 0; // 左哨兵
-
+        vector<ll> num(n + 2);
+        num[0] = 0;
+        num[n + 1] = 0;
         for (int i = 1; i <= n; i++)
         {
-            cin >> nums[i];
+            cin >> num[i];
         }
 
-        nums[n + 1] = 0; // 右哨兵，强制清空栈
-
-        stack<int> High; // 存下标，不是存高度
-        High.push(0);
-
-        ll ans = 0;
-
+        ll maxS = 0;
+        stack<ll> stk;
+        stk.push(0); // 存哨兵
         for (int i = 1; i <= n + 1; i++)
         {
-            while (nums[High.top()] > nums[i])
+
+            if (num[i] >= num[stk.top()])
             {
-                int cur = High.top();
-                High.pop();
-
-                ll height = nums[cur];
-                ll width = i - High.top() - 1;
-
-                ans = max(ans, height * width);
+                // 增长是好事
+                stk.push(i);
             }
+            else
+            {
+                // num[i+1]<num[stk.top()];
+                while (!stk.empty() && num[i] < num[stk.top()])
+                {
+                    
+                    ll curHigh=num[stk.top()];
+                    stk.pop();
+                    ll curLen=i-stk.top()-1;
+                    ll curS=curHigh*curLen;
 
-            High.push(i);
+                    maxS = max(curS, maxS);
+                }
+
+                stk.push(i);
+            }
         }
 
-        cout << ans << '\n';
+        cout << maxS << '\n';
     }
 
     return 0;
