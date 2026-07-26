@@ -15,59 +15,54 @@ int main()
 {
     optimize();
 
-    ll n, k;
-    cin >> n >> k;
+    ll n,k;
+    cin>>n>>k;
 
-    vector<ll> num(n + 1);
-    for (int i = 1; i <= n; i++)
-    {
-        cin >> num[i];
+    vector<ll> a(n+1);
+
+    for(int i=1;i<=n;i++){
+        cin>>a[i];
     }
 
-    vector<ll> Maxs, Mins;
-    deque<ll> qMax, qMin; // 存下标
+    deque<ll> q1,q2;//最小与最大
+    vector<ll> mins,maxs;
 
-    for (ll i = 1; i <= n; i++)
-    {
+    for(int i=1;i<=n;i++){
+        while(!q1.empty() && (a[q1.back()])>=a[i]){
+            q1.pop_back();
+        }
+        while(!q2.empty() && (a[q2.back()])<=a[i]){
+            q2.pop_back();
+        }//维护单调
 
-        while (!qMax.empty() && num[qMax.back()] <= num[i])
-        {
-            qMax.pop_back();
-        }
-        qMax.push_back(i);
-        while (!qMin.empty() && num[qMin.back()] >= num[i])
-        {
-            qMin.pop_back();
-        }
-        qMin.push_back(i);
+        q1.push_back(i);
+        q2.push_back(i);
 
-        while (!qMax.empty() && qMax.front() <= i - k)
-        {
-            qMax.pop_front();
+        //维护长度
+        while(!q1.empty() && (q1.front()<=i-k)){
+            q1.pop_front();
         }
-        while (!qMin.empty() && qMin.front() <= i - k)
-        {
-            qMin.pop_front();
+        while(!q2.empty() && (q2.front()<=i-k)){
+            q2.pop_front();
         }
 
-        if (i >= k)
-        {
-            Maxs.push_back(num[qMax.front()]);
-            Mins.push_back(num[qMin.front()]);
+        if(i>=k){
+            mins.emplace_back(a[q1.front()]);
+            maxs.emplace_back(a[q2.front()]);
         }
     }
 
-    for (ll a : Mins)
-    {
-        cout << a << ' ';
-    }
-    cout << endl;
+    for(int num:mins){
+        cout<<num<<' ';
 
-    for (ll a : Maxs)
-    {
-        cout << a << ' ';
     }
-    cout << endl;
+
+    cout<<endl;
+    for(int num:maxs){
+        cout<<num<<' ';
+    }
+
+    cout<<endl;
 
     return 0;
 }
