@@ -56,9 +56,9 @@ int main()
             }
         }
 
-        auto DFS = [&](auto &&self, int pos) -> bool
+        function<bool(int)> DFS = [&](int pos) -> bool
         {
-            if (pos >= emptyPos.size())
+            if (pos >= (int)emptyPos.size())
             {
                 return true;
             }
@@ -72,11 +72,13 @@ int main()
                     row[x][num] = 1;
                     col[y][num] = 1;
                     grix[Id(x, y)][num] = 1;
-                    if (self(self, pos + 1))
+                    graph[x][y] = num;
+
+                    if (DFS(pos + 1))
                     {
-                        graph[x][y] = num;
                         return true;
                     }
+
                     graph[x][y] = 0;
                     row[x][num] = 0;
                     col[y][num] = 0;
@@ -86,7 +88,7 @@ int main()
             return false; // 此位置直接不合法
         };
 
-        DFS(DFS, 0);
+        DFS(0);
         for (int i = 1; i <= 9; i++)
         {
             for (int j = 1; j <= 9; j++)
