@@ -19,7 +19,10 @@
       "Bash(taskkill //f //im python3.12.exe)",
       "Bash(\"C:/Users/Administrator/AppData/Local/Programs/Python/Python312/python.exe\" app.py)",
       "Bash(\"C:/Users/Administrator/AppData/Local/Programs/Python/Python312/python.exe\" -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Server OK —', d['rowCount'], 'rows,', len\\(d['columns']\\), 'cols:', d['columns']\\)\")",
-      "Bash(start *)"
+      "Bash(start *)",
+      "Skill(deep-research)",
+      "Workflow(deep-research)",
+      "WebSearch"
     ]
   }
 }
