@@ -26,7 +26,7 @@ int main()
 
     sort(c.rbegin(), c.rend());
 
-    ll ans = 18;
+    ll ans = n;//明确上界剪枝
 
     vector<ll> Cars(20, 0); // 每个缆车的目前承载重量
 
